@@ -20,7 +20,7 @@ A physics-based simulation of a double pendulum using Python. Simulates chaotic 
    - Clone the repository to your local machine:
      ```bash
      git clone https://github.com/252514/Double_Pendulum.git
-     cd conways-game-of-life
+     cd Double_Pendulum
      ```
 
 2. **Create and Activate a Virtual Environment:**
