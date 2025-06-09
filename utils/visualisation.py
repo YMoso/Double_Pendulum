@@ -15,6 +15,8 @@ class Visualisation:
         self.solution = solution
 
 
+
+
     def plot_angles(self):
         t = self.solution.t
         theta1, theta2 = self.solution.y[0], self.solution.y[1]

@@ -3,7 +3,7 @@ config = {
     "mass_2": 2,
     "length_1": 1,
     "length_2": 1,
-    "theta_1": 90,
+    "theta_1": 180,
     "theta_2": 180,
     "theta_1_dot": 1,
     "theta_2_dot": 1,
@@ -13,5 +13,6 @@ config = {
     "interval": 40,
     "plot": False,
     "multi_pendulum": False,
-    "num_of_pendulums": 4
+    "num_of_pendulums": 4,
+    "energy_plot": True
 }
