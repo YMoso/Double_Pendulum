@@ -15,16 +15,14 @@ class Visualisation:
         self.solution = solution
 
 
-
-
     def plot_angles(self):
         t = self.solution.t
         theta1, theta2 = self.solution.y[0], self.solution.y[1]
 
         plt.plot(t, theta1, label='θ₁(t)')
         plt.plot(t, theta2, label='θ₂(t)')
-        plt.xlabel("Time [s]")
-        plt.ylabel("Angle [rad]")
+        plt.xlabel("Time")
+        plt.ylabel("Angle")
         plt.title("Double Pendulum Angles")
         plt.grid()
         plt.legend()
@@ -59,7 +57,6 @@ class Visualisation:
             ax1.scatter(x1[-1], y1[-1], color=color, s=50, marker='s',
                         edgecolors='black', zorder=5)
 
-            # Plot second mass trajectory
             ax2.plot(x2, y2, color=color, alpha=0.7, linewidth=1,
                      label=f'Pendulum {idx + 1} (Mass 2)')
             ax2.scatter(x2[0], y2[0], color=color, s=50, marker='o',
@@ -118,14 +115,14 @@ class Visualisation:
             ax4.plot(sol.t, color=color, alpha=0.7, linewidth=1,
                      label=f'Pendulum {idx + 1}')
 
-        ax1.set_xlabel('θ₁ (rad)')
-        ax1.set_ylabel('θ₁\' (rad/s)')
+        ax1.set_xlabel('θ_1 (rad)')
+        ax1.set_ylabel('θ_1\' (rad/s)')
         ax1.set_title('Phase Space: First Pendulum')
         ax1.grid(True, alpha=0.3)
         ax1.legend()
 
-        ax2.set_xlabel('θ₂ (rad)')
-        ax2.set_ylabel('θ₂\' (rad/s)')
+        ax2.set_xlabel('θ_2 (rad)')
+        ax2.set_ylabel('θ_2\' (rad/s)')
         ax2.set_title('Phase Space: Second Pendulum')
         ax2.grid(True, alpha=0.3)
         ax2.legend()
@@ -215,10 +212,14 @@ class Visualisation:
             return [l[0] for l in lines] + balls1 + balls2 + trajectory_lines
 
         frame_count = min(len(sol.t) for _, sol in pendulums)
-        ani = animation.FuncAnimation(fig, update, frames=frame_count,
-                                      interval=pendulums[0][0]['interval'], blit=True, repeat=True)
+        dt = pendulums[0][1].t[1] - pendulums[0][1].t[0]
+        real_time_ratio = 1.0
+        interval = 1000 * dt / real_time_ratio
 
-        plt.title("Multiple Double Pendulums with Trajectory Traces", color='white', fontsize=14)
+        ani = animation.FuncAnimation(fig, update, frames=frame_count,
+                                      interval=interval, blit=True, repeat=True)
+
+        plt.title("Multiple Double Pendulums", color='white', fontsize=14)
         plt.tight_layout()
         plt.show()
 
