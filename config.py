@@ -7,12 +7,13 @@ config = {
     "theta_2": 180,
     "theta_1_dot": 1,
     "theta_2_dot": 1,
-    "t_span": (0, 40),
-    "steps": 1000,
+    "t_span": (0, 20),
+    "steps": 4000,
     "animate": True,
     "interval": 40,
     "plot": False,
     "multi_pendulum": False,
     "num_of_pendulums": 4,
-    "energy_plot": True
+    "energy_plot": True,
+    "method": "rk4"
 }
