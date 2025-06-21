@@ -2,7 +2,7 @@ import copy
 import matplotlib.pyplot as plt
 from utils.pendulum import Pendulum
 from utils.visualisation import Visualisation
-from utils.visualisation_rk4 import RK4Visualisation
+from utils.visualisation_rk4 import RK4Visualisation, MultiRK4Visualizer
 
 
 class Controls:
@@ -10,7 +10,9 @@ class Controls:
         self.config = config
 
     def run(self):
-        if self.config["multi_pendulum"]:
+        if self.config["multi_pendulum"] and self.config["method"] == "rk4":
+            self.run_multi_rk4()
+        elif self.config["multi_pendulum"]:
             self.run_multi()
         elif self.config["method"] == "rk4":
             self.run_rk4()
@@ -33,6 +35,23 @@ class Controls:
             Visualisation.plot_phase_space(pendulums)
         if self.config["energy_plot"]:
             self.plot_energy(pendulums)
+
+    def run_multi_rk4(self):
+        pendulums = []
+        for i in range(self.config["num_of_pendulums"]):
+            cfg = copy.deepcopy(self.config)
+            cfg["theta_1"] += i * 0.0001
+            p = Pendulum(cfg)
+            pendulums.append(p)
+
+        viz = MultiRK4Visualizer(pendulums)
+
+        if self.config["plot"]:
+            viz.plot_phase_space()
+        if self.config["energy_plot"]:
+            self.plot_energy_rk4(pendulums)
+        if self.config["animate"]:
+            viz.animate_multiple()
 
     def run_single(self):
         p = Pendulum(self.config)
@@ -62,6 +81,22 @@ class Controls:
         plt.xlabel("Time [s]")
         plt.ylabel("Total Energy [J]")
         plt.title("Total Energy Over Time")
+        plt.grid(True)
+        if len(pendulums) > 1:
+            plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+    def plot_energy_rk4(self, pendulums):
+        plt.figure(figsize=(8, 5))
+        for idx, p in enumerate(pendulums):
+            E = p.compute_energy(p.solution_t, p.solution_y)
+            label = f"Pendulum {idx + 1}" if len(pendulums) > 1 else "Total Energy"
+            plt.plot(p.solution_t, E, label=label)
+
+        plt.xlabel("Time [s]")
+        plt.ylabel("Total Energy [J]")
+        plt.title("Total Mechanical Energy (RK4)")
         plt.grid(True)
         if len(pendulums) > 1:
             plt.legend()

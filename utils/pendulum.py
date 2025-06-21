@@ -90,18 +90,22 @@ class Pendulum:
 
     def rk4_solver(self):
         t0, tf = self.t_span
-        h = (tf - t0) / self.steps
-        t_vals = np.linspace(t0, tf, self.steps)
-        y_vals = np.zeros((self.steps, 4))
-        y_vals[0] = [self.theta_1, self.theta_2, self.theta_1_dot, self.theta_2_dot]
+        h = (tf -t0)/ self.steps
+        t_vals = np.arange(t0,tf+h/2,h)
+        n_points = len(t_vals)
+        y_vals = np.zeros((n_points, 4))
+        y_vals[0] = [self.theta_1, self.theta_2, self.theta_1_dot,self.theta_2_dot]
 
-        for i in range(self.steps - 1):
-            t = t_vals[i]
-            y = y_vals[i]
-            k1 = np.array(self.derivatives(t, y))
-            k2 = np.array(self.derivatives(t + h / 2, y + h / 2 * k1))
-            k3 = np.array(self.derivatives(t + h / 2, y + h / 2 * k2))
-            k4 = np.array(self.derivatives(t + h, y + h * k3))
-            y_vals[i + 1] = y + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
+        for i in range(n_points -1):
+            t_current = t_vals[i]
+            y_current = y_vals[i]
+            slope1 = np.array(self.derivatives(t_current, y_current))
+            slope2 = np.array(self.derivatives(t_current+ h /2, y_current+ h *slope1 /2))
+            slope3 = np.array(self.derivatives(t_current+h /2, y_current+ h *slope2 /2))
+            slope4 = np.array(self.derivatives(t_current+h, y_current+h*slope3))
+
+            weighted_slope = (slope1 + 2 *slope2 + 2 * slope3 +slope4) /6
+
+            y_vals[i+1] = y_current + h *weighted_slope
 
         return t_vals, y_vals.T
