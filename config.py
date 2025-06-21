@@ -1,19 +1,19 @@
 config = {
     "mass_1": 2,
-    "mass_2": 2,
+    "mass_2": 10,
     "length_1": 1,
     "length_2": 1,
-    "theta_1": 180,
-    "theta_2": 180,
+    "theta_1": 20, # degree for first bob
+    "theta_2": 0, # degree for the second bob
     "theta_1_dot": 1,
     "theta_2_dot": 1,
-    "t_span": (0, 20),
-    "steps": 4000,
+    "t_span": (0, 30),
+    "steps": 2000,
     "animate": True,
     "interval": 40,
-    "plot": False,
-    "multi_pendulum": False,
+    "plot": True,
+    "multi_pendulum": True,
     "num_of_pendulums": 4,
     "energy_plot": True,
-    "method": "rk4"
+    "method": "solve_ivp" #solve_ivp or rk4
 }
