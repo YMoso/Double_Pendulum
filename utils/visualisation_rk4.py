@@ -1,65 +1,3 @@
-# import matplotlib.pyplot as plt
-# import matplotlib.animation as animation
-# import numpy as np
-#
-# class RK4Visualisation:
-#     def __init__(self, pendulum):
-#         self.pendulum = pendulum
-#         self.t = pendulum.solution_t
-#         self.y = pendulum.solution_y
-#         self.theta_1 = self.y[0]
-#         self.theta_2 = self.y[1]
-#         self.l1 = pendulum.length_1
-#         self.l2 = pendulum.length_2
-#         self.real_time_ratio = 1.0
-#
-#     def plot_angles(self):
-#         plt.figure(figsize=(10, 5))
-#         plt.plot(self.t, np.degrees(self.theta_1), label='θ1 [deg]')
-#         plt.plot(self.t, np.degrees(self.theta_2), label='θ2 [deg]')
-#         plt.xlabel("Time [s]")
-#         plt.ylabel("Angle [degrees]")
-#         plt.title("Double Pendulum Angles (RK4)")
-#         plt.legend()
-#         plt.grid()
-#         plt.tight_layout()
-#         plt.show()
-#
-#     def plot_energy(self):
-#         E = self.pendulum.compute_energy(self.t, self.y)
-#         plt.figure(figsize=(10, 5))
-#         plt.plot(self.t, E, label="Total Energy")
-#         plt.xlabel("Time [s]")
-#         plt.ylabel("Energy [J]")
-#         plt.title("Total Mechanical Energy (RK4)")
-#         plt.legend()
-#         plt.grid()
-#         plt.tight_layout()
-#         plt.show()
-#
-#     def animate_motion(self):
-#         x1 = self.l1 * np.sin(self.theta_1)
-#         y1 = -self.l1 * np.cos(self.theta_1)
-#         x2 = x1 + self.l2 * np.sin(self.theta_2)
-#         y2 = y1 - self.l2 * np.cos(self.theta_2)
-#
-#         fig, ax = plt.subplots()
-#         ax.set_xlim(-self.l1 - self.l2, self.l1 + self.l2)
-#         ax.set_ylim(-self.l1 - self.l2, self.l1 + self.l2)
-#         ax.set_aspect('equal')
-#         ax.grid()
-#         line, = ax.plot([], [], 'o-', lw=2)
-#
-#         def update(i):
-#             line.set_data([0, x1[i], x2[i]], [0, y1[i], y2[i]])
-#             return line,
-#
-#         dt = self.t[1] - self.t[0]
-#         interval = 1000 * dt / self.real_time_ratio
-#         ani = animation.FuncAnimation(fig, update, frames=len(self.t), interval=interval, blit=True)
-#         plt.show()
-#
-
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
@@ -104,16 +42,13 @@ class RK4Visualisation:
         plt.show()
 
     def plot_trajectories(self):
-        """Plot the trajectories of both masses"""
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
-        # Calculate positions
         x1 = self.l1 * np.sin(self.theta_1)
         y1 = -self.l1 * np.cos(self.theta_1)
         x2 = x1 + self.l2 * np.sin(self.theta_2)
         y2 = y1 - self.l2 * np.cos(self.theta_2)
 
-        # First mass trajectory
         ax1.plot(x1, y1, color='#FF6B6B', alpha=0.7, linewidth=2, label='Mass 1 Trajectory')
         ax1.scatter(x1[0], y1[0], color='#FF6B6B', s=100, marker='o',
                     edgecolors='black', zorder=5, label='Start')
@@ -127,7 +62,6 @@ class RK4Visualisation:
         ax1.set_title('First Mass Trajectory (RK4)\n(Circle = Start, Square = End)')
         ax1.legend()
 
-        # Second mass trajectory
         ax2.plot(x2, y2, color='#4ECDC4', alpha=0.7, linewidth=2, label='Mass 2 Trajectory')
         ax2.scatter(x2[0], y2[0], color='#4ECDC4', s=100, marker='o',
                     edgecolors='black', zorder=5, label='Start')
@@ -146,13 +80,11 @@ class RK4Visualisation:
         return fig
 
     def plot_phase_space(self):
-        """Plot phase space diagrams"""
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
 
         theta1_dot = self.y[2]
         theta2_dot = self.y[3]
 
-        # Phase space for first pendulum
         ax1.plot(self.theta_1, theta1_dot, color='#FF6B6B', alpha=0.7, linewidth=2)
         ax1.scatter(self.theta_1[0], theta1_dot[0], color='#FF6B6B', s=50,
                     marker='o', edgecolors='black', zorder=5)
@@ -161,7 +93,6 @@ class RK4Visualisation:
         ax1.set_title('Phase Space: First Pendulum (RK4)')
         ax1.grid(True, alpha=0.3)
 
-        # Phase space for second pendulum
         ax2.plot(self.theta_2, theta2_dot, color='#4ECDC4', alpha=0.7, linewidth=2)
         ax2.scatter(self.theta_2[0], theta2_dot[0], color='#4ECDC4', s=50,
                     marker='o', edgecolors='black', zorder=5)
@@ -170,7 +101,6 @@ class RK4Visualisation:
         ax2.set_title('Phase Space: Second Pendulum (RK4)')
         ax2.grid(True, alpha=0.3)
 
-        # Configuration space
         ax3.plot(self.theta_1, self.theta_2, color='#45B7D1', alpha=0.7, linewidth=2)
         ax3.scatter(self.theta_1[0], self.theta_2[0], color='#45B7D1', s=50,
                     marker='o', edgecolors='black', zorder=5)
@@ -179,7 +109,6 @@ class RK4Visualisation:
         ax3.set_title('Configuration Space (RK4)')
         ax3.grid(True, alpha=0.3)
 
-        # Time evolution
         ax4.plot(self.t, np.degrees(self.theta_1), color='#FF6B6B',
                  label='θ₁', linewidth=2)
         ax4.plot(self.t, np.degrees(self.theta_2), color='#4ECDC4',
@@ -195,7 +124,6 @@ class RK4Visualisation:
         return fig
 
     def animate_motion(self):
-        """Enhanced animation with trajectory trails"""
         x1 = self.l1 * np.sin(self.theta_1)
         y1 = -self.l1 * np.cos(self.theta_1)
         x2 = x1 + self.l2 * np.sin(self.theta_2)
@@ -208,10 +136,8 @@ class RK4Visualisation:
         ax.grid(True, alpha=0.3)
         ax.set_facecolor('black')
 
-        # Pendulum line
         line, = ax.plot([], [], '-', lw=3, color='#FFFFFF', alpha=0.8)
 
-        # Mass circles with size proportional to mass
         ball1 = plt.Circle((0, 0), 0.05 * self.m1 ** (1 / 3), fc='#FF6B6B',
                            ec='white', linewidth=2)
         ball2 = plt.Circle((0, 0), 0.08 * self.m2 ** (1 / 3), fc='#4ECDC4',
@@ -219,26 +145,21 @@ class RK4Visualisation:
         ax.add_patch(ball1)
         ax.add_patch(ball2)
 
-        # Pivot point
         pivot = plt.Circle((0, 0), 0.05, fc='white', ec='gray', linewidth=2)
         ax.add_patch(pivot)
 
-        # Trajectory trail
         dt = self.t[1] - self.t[0] if len(self.t) > 1 else 0.01
-        trajectory_length = int(3.0 / dt)  # 3 seconds of trail
+        trajectory_length = int(3.0 / dt)
         trajectory = deque(maxlen=trajectory_length)
         trajectory_line, = ax.plot([], [], '-', color='#4ECDC4', alpha=0.6, linewidth=1)
 
         def update(i):
             if i < len(x1):
-                # Update pendulum line
                 line.set_data([0, x1[i], x2[i]], [0, y1[i], y2[i]])
 
-                # Update mass positions
                 ball1.center = (x1[i], y1[i])
                 ball2.center = (x2[i], y2[i])
 
-                # Update trajectory trail
                 trajectory.append((x2[i], y2[i]))
                 if len(trajectory) > 1:
                     traj_x, traj_y = zip(*trajectory)
@@ -258,7 +179,6 @@ class RK4Visualisation:
         return ani
 
     def create_complete_analysis(self):
-        """Create all visualizations in one go"""
         print("Creating complete RK4 analysis...")
         self.plot_angles()
         self.plot_energy()
@@ -268,17 +188,11 @@ class RK4Visualisation:
 
 
 class MultiRK4Visualizer:
-    """Visualizer for multiple RK4 pendulums"""
-
     def __init__(self, pendulums):
-        """
-        pendulums: list of Pendulum objects (using RK4 method)
-        """
         self.pendulums = pendulums
         self.colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57']
 
     def plot_trajectories(self):
-        """Plot trajectories of multiple pendulums"""
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
         for idx, pendulum in enumerate(self.pendulums):
@@ -325,8 +239,7 @@ class MultiRK4Visualizer:
         return fig
 
     def plot_phase_space(self):
-        """Plot phase space for multiple pendulums"""
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
 
         for idx, pendulum in enumerate(self.pendulums):
             color = self.colors[idx % len(self.colors)]
@@ -372,18 +285,11 @@ class MultiRK4Visualizer:
         ax3.grid(True, alpha=0.3)
         ax3.legend()
 
-        ax4.set_xlabel('Time (s)')
-        ax4.set_ylabel('Angle (degrees)')
-        ax4.set_title('Time Evolution (RK4)')
-        ax4.grid(True, alpha=0.3)
-        ax4.legend()
-
         plt.tight_layout()
         plt.show()
         return fig
 
     def animate_multiple(self):
-        """Animate multiple pendulums simultaneously"""
         fig, ax = plt.subplots(figsize=(12, 10))
         ax.set_xlim(-3, 3)
         ax.set_ylim(-3, 3)
@@ -397,9 +303,8 @@ class MultiRK4Visualizer:
         trajectories = []
         trajectory_lines = []
 
-        # Calculate trajectory length based on time step
         dt = self.pendulums[0].solution_t[1] - self.pendulums[0].solution_t[0]
-        trajectory_length = int(5.0 / dt)  # 5 seconds of trail
+        trajectory_length = int(5.0 / dt)
 
         for idx, pendulum in enumerate(self.pendulums):
             color = self.colors[idx % len(self.colors)]
@@ -430,7 +335,6 @@ class MultiRK4Visualizer:
             trajectories.append(trajectory)
             trajectory_lines.append(trajectory_line)
 
-        # Add pivot point
         pivot = plt.Circle((0, 0), 0.05, fc='white', ec='gray', linewidth=2)
         ax.add_patch(pivot)
 
@@ -449,9 +353,8 @@ class MultiRK4Visualizer:
 
             return [l[0] for l in lines] + balls1 + balls2 + trajectory_lines
 
-        # Use the minimum frame count among all pendulums
         frame_count = min(len(p.solution_t) for p in self.pendulums)
-        interval = 1000 * dt / 1.0  # real time ratio
+        interval = 1000 * dt / 1.0
 
         ani = animation.FuncAnimation(fig, update, frames=frame_count,
                                       interval=interval, blit=True, repeat=True)
@@ -462,21 +365,17 @@ class MultiRK4Visualizer:
         return ani
 
     def create_complete_analysis(self):
-        """Create all visualizations for multiple pendulums"""
         print("Creating complete multi-pendulum RK4 analysis...")
         self.plot_trajectories()
         self.plot_phase_space()
         return self.animate_multiple()
 
 
-# Example usage functions
 def analyze_single_rk4_pendulum(pendulum):
-    """Convenience function to analyze a single RK4 pendulum"""
     viz = RK4Visualisation(pendulum)
     return viz.create_complete_analysis()
 
 
 def analyze_multiple_rk4_pendulums(pendulums):
-    """Convenience function to analyze multiple RK4 pendulums"""
     viz = MultiRK4Visualizer(pendulums)
     return viz.create_complete_analysis()
