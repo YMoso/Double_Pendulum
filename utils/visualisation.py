@@ -85,7 +85,7 @@ class Visualisation:
 
     @staticmethod
     def plot_phase_space(pendulums):
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
 
         colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57']
 
@@ -112,8 +112,6 @@ class Visualisation:
             ax3.scatter(theta1[0], theta2[0], color=color, s=30, marker='o',
                         edgecolors='black', zorder=5)
 
-            ax4.plot(sol.t, color=color, alpha=0.7, linewidth=1,
-                     label=f'Pendulum {idx + 1}')
 
         ax1.set_xlabel('θ_1 (rad)')
         ax1.set_ylabel('θ_1\' (rad/s)')
@@ -127,17 +125,11 @@ class Visualisation:
         ax2.grid(True, alpha=0.3)
         ax2.legend()
 
-        ax3.set_xlabel('θ₁ (rad)')
-        ax3.set_ylabel('θ₂ (rad)')
+        ax3.set_xlabel('θ_1 (rad)')
+        ax3.set_ylabel('θ_2 (rad)')
         ax3.set_title('Configuration Space')
         ax3.grid(True, alpha=0.3)
         ax3.legend()
-
-        ax4.set_xlabel('Time (s)')
-        ax4.set_ylabel('Value')
-        ax4.set_title('Time Evolution')
-        ax4.grid(True, alpha=0.3)
-        ax4.legend()
 
         plt.tight_layout()
         plt.show()
