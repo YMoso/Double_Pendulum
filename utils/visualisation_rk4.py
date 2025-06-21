@@ -41,6 +41,7 @@ class RK4Visualisation:
         plt.tight_layout()
         plt.show()
 
+
     def plot_trajectories(self):
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
@@ -104,15 +105,15 @@ class RK4Visualisation:
         ax3.plot(self.theta_1, self.theta_2, color='#45B7D1', alpha=0.7, linewidth=2)
         ax3.scatter(self.theta_1[0], self.theta_2[0], color='#45B7D1', s=50,
                     marker='o', edgecolors='black', zorder=5)
-        ax3.set_xlabel('θ₁ (rad)')
-        ax3.set_ylabel('θ₂ (rad)')
+        ax3.set_xlabel('θ_1 (rad)')
+        ax3.set_ylabel('θ_2 (rad)')
         ax3.set_title('Configuration Space (RK4)')
         ax3.grid(True, alpha=0.3)
 
         ax4.plot(self.t, np.degrees(self.theta_1), color='#FF6B6B',
-                 label='θ₁', linewidth=2)
+                 label='θ_1', linewidth=2)
         ax4.plot(self.t, np.degrees(self.theta_2), color='#4ECDC4',
-                 label='θ₂', linewidth=2)
+                 label='θ_2', linewidth=2)
         ax4.set_xlabel('Time (s)')
         ax4.set_ylabel('Angle (degrees)')
         ax4.set_title('Time Evolution (RK4)')
@@ -239,7 +240,7 @@ class MultiRK4Visualizer:
         return fig
 
     def plot_phase_space(self):
-        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16, 5))
 
         for idx, pendulum in enumerate(self.pendulums):
             color = self.colors[idx % len(self.colors)]
@@ -264,8 +265,6 @@ class MultiRK4Visualizer:
             ax3.scatter(theta1[0], theta2[0], color=color, s=30, marker='o',
                         edgecolors='black', zorder=5)
 
-            ax4.plot(pendulum.solution_t, np.degrees(theta1), color=color,
-                     alpha=0.7, linewidth=2, label=f'Pendulum {idx + 1}')
 
         ax1.set_xlabel('θ_1 (rad)')
         ax1.set_ylabel('θ_1\' (rad/s)')
@@ -290,7 +289,7 @@ class MultiRK4Visualizer:
         return fig
 
     def animate_multiple(self):
-        fig, ax = plt.subplots(figsize=(12, 10))
+        fig, ax = plt.subplots(figsize=(8, 8))
         ax.set_xlim(-3, 3)
         ax.set_ylim(-3, 3)
         ax.set_aspect('equal')
