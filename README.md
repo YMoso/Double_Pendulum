@@ -1,20 +1,23 @@
-# 🎢 Double Pendulum Simulation
+# Double Pendulum Simulation
 
-A physics-based simulation of a double pendulum using Python. Simulates chaotic motion, visualizes the angles, and animates the motion using `matplotlib`.
-
----
-
-## 📦 Features
-
-- Simulates double pendulum dynamics using `scipy.integrate.solve_ivp`
-- Configurable through a Python `config.py` file
-- Clean architecture with separation of simulation logic, configuration, and visualization
-- Plots angle vs time
-- Animates pendulum motion with `matplotlib.animation`
+This project simulates the chaotic motion of a double pendulum using Python. It supports both Euler and RK4 (Runge–Kutta 4th order) numerical integration methods, provides detailed visualizations of the pendulum's behavior, and supports multi-pendulum comparisons.
 
 ---
 
+## Features
 
+- Physics-based simulation using `scipy.integrate.solve_ivp`
+- RK4 and Euler integration methods available
+- Modular architecture separating configuration, simulation, controls, and visualization
+- Visualizations include:
+  - Angle vs time plots
+  - Energy conservation plots
+  - Phase space and configuration space plots
+  - Trajectory plots for each pendulum mass
+- Real-time animation of the pendulum(s)
+- Multi-pendulum mode: simulate many pendulums with slightly different starting conditions
+
+---
 1. **Installation:**
    - Make sure you have Python installed on your system.
    - Clone the repository to your local machine:
@@ -52,7 +55,7 @@ A physics-based simulation of a double pendulum using Python. Simulates chaotic 
      python main.py
      ```
 
-## ⚙️ Configuration (`config.py`)
+## Configuration (`config.py`)
 
 The simulation is fully configurable via the `config.py` file. You can adjust any of the parameters below to customize the behavior of the double pendulum:
 
@@ -73,25 +76,28 @@ The simulation is fully configurable via the `config.py` file. You can adjust an
 | `multi_pendulum` | `True` Simulate multiple pendulums with slightly different angles     |
 | `num_of_pendulums`| Number of pendulums to simulate if multi_pendulum is `True`|
 | `interval`       | Frame update interval in the animation (in milliseconds)|
+| `method`       | Set to "rk4" for Runge-Kutta method, else uses Euler|
 
-### 📌 Example:
+### Example:
 
 ```python
 config = {
     "mass_1": 2,
-    "mass_2": 2,
+    "mass_2": 10,
     "length_1": 1,
     "length_2": 1,
-    "theta_1": 90,
-    "theta_2": 180,
+    "theta_1": 20,
+    "theta_2": 0,
     "theta_1_dot": 1,
     "theta_2_dot": 1,
-    "t_span": (0, 40),
-    "steps": 1000,
+    "t_span": (0, 30),
+    "steps": 2000,
     "animate": True,
     "interval": 40,
-    "plot": False,
-    "multi_pendulum": False,
-    "num_of_pendulums": 4
+    "plot": True,
+    "multi_pendulum": True,
+    "num_of_pendulums": 4,
+    "energy_plot": True,
+    "method": "solve_ivp"
 }
 
